@@ -12,7 +12,8 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 // ROUTES
-
+app.post('/musicians')
+app.get('/musicians')
 
 
 app.listen(PORT, console.log(`Build-A-Band listening on port ${PORT}`))
