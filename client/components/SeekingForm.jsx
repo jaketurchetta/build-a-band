@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Button } from 'react-native';
+import { Icon } from 'react-native-elements';
 import axios from 'axios';
 import faker from 'faker';
 
@@ -8,7 +9,7 @@ export default class AbilitiesForm extends React.Component {
     super(props)
     this.state = {
       loading: false,
-      instruments: [],
+      seekingInstruments: [],
       ids: []
     };
     this.getInstruments = this.getInstruments.bind(this);
@@ -33,7 +34,7 @@ export default class AbilitiesForm extends React.Component {
         });
         this.setState({
           loading: false,
-          instruments: intrumentsData
+          seekingInstruments: intrumentsData
         });
       }).catch(error => {
         this.setState({ loading: false });
@@ -46,29 +47,29 @@ export default class AbilitiesForm extends React.Component {
     data.item.selected = !data.item.selected;
     data.item.selectedClass = data.item.selected ? styles.selected : styles.list;
 
-    const index = this.state.instruments.findIndex(
+    const index = this.state.seekingInstruments.findIndex(
       item => data.item.id === item.id
     );
 
-    this.state.instruments[index] = data.item;
+    this.state.seekingInstruments[index] = data.item;
 
     this.setState({
-      instruments: this.state.instruments,
+      seekingInstruments: this.state.seekingInstruments,
     });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
     let container = [];
-    for (let i = 0; i < this.state.instruments.length; i++) {
-      if (this.state.instruments[i].selected) {
-        container.push([this.state.instruments[i].id,0])
+    for (let i = 0; i < this.state.seekingInstruments.length; i++) {
+      if (this.state.seekingInstruments[i].selected) {
+        container.push(this.state.seekingInstruments[i].id)
       }
     }
     this.setState({
       ids: container
     }, () => {
-      this.props.abilitiesCallback(this.state.ids)
+      this.props.seekingCallback(this.state.ids)
     })
   }
 
@@ -81,7 +82,7 @@ export default class AbilitiesForm extends React.Component {
 
 
   render() {
-    const itemNumber = this.state.instruments.filter(item => item.selected).length;
+    const itemNumber = this.state.seekingInstruments.filter(item => item.selected).length;
     if (this.state.loading) {
       return (
         <View style={styles.loader}>
@@ -92,18 +93,19 @@ export default class AbilitiesForm extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Abilities</Text>
+        <Text style={styles.title}>Seeking</Text>
         <FlatList
-          data={this.state.instruments}
+          data={this.state.seekingInstruments}
           ItemSeparatorComponent={this.FlatListItemSeparator}
           renderItem={item => this.renderItem(item)}
           keyExtractor={item => item.id.toString()}
           extraData={this.state}
         />
         <Button
-          title="NEXT"
+          title="START A BAND"
           color="#228B22"
-          onPress={(event) => this.handleSubmit(event)}/>
+          onPress={(event) => this.handleSubmit(event)}
+          style={styles.button}/>
       </View>
     );
   }
@@ -140,10 +142,10 @@ const styles = StyleSheet.create({
   lightText: {
     color: "#f7f7f7",
     width: "100%",
-    paddingLeft: 15,
     paddingTop: 15,
     paddingBottom: 15,
-    fontSize: 20
+    fontSize: 20,
+    textAlign: "center"
   },
   line: {
     height: 0.5,
@@ -151,4 +153,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255,255,255,0.5)"
   },
   selected: { backgroundColor: "#228B22" },
+  button: {
+    paddingTop: 15,
+    paddingBottom: 15,
+    fontSize: 20
+  }
 });
