@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View, ActivityIndicator, FlatList, Text, TouchableOpacity, Image, Button } from 'react-native';
 import axios from 'axios';
 import faker from 'faker';
+import styled from 'styled-components/native';
 
 export default class AbilitiesForm extends React.Component {
   constructor(props) {
@@ -12,7 +13,6 @@ export default class AbilitiesForm extends React.Component {
       ids: []
     };
     this.getInstruments = this.getInstruments.bind(this);
-    this.FlatListItemSeparator = this.FlatListItemSeparator.bind(this);
     this.selectInstrument = this.selectInstrument.bind(this);
     this.renderItem = this.renderItem.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,8 +40,6 @@ export default class AbilitiesForm extends React.Component {
       });
   };
 
-  FlatListItemSeparator = () => <View style={styles.line} />;
-
   selectInstrument = data => {
     data.item.selected = !data.item.selected;
     data.item.selectedClass = data.item.selected ? styles.selected : styles.list;
@@ -62,7 +60,7 @@ export default class AbilitiesForm extends React.Component {
     let container = [];
     for (let i = 0; i < this.state.instruments.length; i++) {
       if (this.state.instruments[i].selected) {
-        container.push([this.state.instruments[i].id,0])
+        container.push([this.state.instruments[i].id, 0])
       }
     }
     this.setState({
@@ -73,12 +71,11 @@ export default class AbilitiesForm extends React.Component {
   }
 
   renderItem = data =>
-    <TouchableOpacity
-      style={[styles.list, data.item.selectedClass]}
-      onPress={() => this.selectInstrument(data)}>
-      <Text style={styles.lightText}>  {data.item.instrument.charAt(0).toUpperCase() + data.item.instrument.slice(1)}  </Text>
-    </TouchableOpacity>
-
+      <TouchableOpacity
+        style={[styles.list, data.item.selectedClass]}
+        onPress={() => this.selectInstrument(data)}>
+        <Text style={styles.lightText}>  {data.item.instrument.charAt(0).toUpperCase() + data.item.instrument.slice(1)}</Text>
+      </TouchableOpacity>
 
   render() {
     const itemNumber = this.state.instruments.filter(item => item.selected).length;
@@ -95,7 +92,6 @@ export default class AbilitiesForm extends React.Component {
         <Text style={styles.title}>Abilities</Text>
         <FlatList
           data={this.state.instruments}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
           renderItem={item => this.renderItem(item)}
           keyExtractor={item => item.id.toString()}
           extraData={this.state}
@@ -103,7 +99,7 @@ export default class AbilitiesForm extends React.Component {
         <Button
           title="NEXT"
           color="#228B22"
-          onPress={(event) => this.handleSubmit(event)}/>
+          onPress={(event) => this.handleSubmit(event)} />
       </View>
     );
   }
@@ -112,8 +108,9 @@ export default class AbilitiesForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
-    position: "relative"
+    backgroundColor: "#2b2b2c",
+    position: "relative",
+    width: "100%"
   },
   title: {
     fontSize: 40,
@@ -129,13 +126,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   list: {
-    paddingVertical: 5,
-    margin: 3,
+    padding: 15,
+    margin: 10,
     flexDirection: "row",
-    backgroundColor: "#000000",
+    backgroundColor: "#262527",
     justifyContent: "flex-start",
-    alignItems: "center",
-    zIndex: -1
+    alignItems: "flex-start",
+    width: "90%",
+    zIndex: -1,
+    borderRadius: 20,
+    shadowColor: "#1e1e1f",
+    shadowOffset: {
+      width: 5,
+      height: 5
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 30
   },
   lightText: {
     color: "#f7f7f7",
@@ -152,3 +159,10 @@ const styles = StyleSheet.create({
   },
   selected: { backgroundColor: "#228B22" },
 });
+
+// const ListItem = styled.Text`
+//   border-radius: 24px;
+//   background: #252527;
+//   box-shadow:  19px 19px 38px #1f1f20,
+//               -19px -19px 38px #373738;
+// `;

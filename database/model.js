@@ -28,7 +28,6 @@ module.exports = {
                   POW(69.1 * (latitude - ${lat}), 2) +
                   POW(69.1 * (${lng} - longitude) * COS(latitude / 57.3), 2)) AS distance
                   FROM users
-                  WHERE
                   ORDER BY distance
                   LIMIT 15`)
       .then(res => {

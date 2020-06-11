@@ -15,7 +15,7 @@ CREATE TABLE users
   zip VARCHAR(5),
   latitude FLOAT,
   longitude FLOAT,
-  abilities TEXT[][],
+  abilities TEXT[],
   seeking TEXT[]
 );
 
