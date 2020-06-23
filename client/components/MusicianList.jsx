@@ -12,6 +12,7 @@ export default class MusicianList extends React.Component {
       musicians: []
     };
     this.getMusicians = this.getMusicians.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +20,7 @@ export default class MusicianList extends React.Component {
   }
 
   getMusicians(lat, lng, seeking) {
+    console.log("From getMusicians:", seeking)
     axios.get(`http://127.0.0.1:3000/musicians?lat=${lat}&lng=${lng}&seeking=${JSON.stringify(seeking)}`)
       .then((response) => {
         let data = response.data;
@@ -41,8 +43,6 @@ export default class MusicianList extends React.Component {
       });
   }
 
-  FlatListItemSeparator = () => <View style={styles.line} />;
-
   renderItem = data =>
     <TouchableOpacity
       style={[styles.list]}
@@ -58,7 +58,6 @@ export default class MusicianList extends React.Component {
         <Text style={styles.title}>Nearby Musicians</Text>
         <FlatList
             data={this.state.musicians}
-            ItemSeparatorComponent={this.FlatListItemSeparator}
             renderItem={item => this.renderItem(item)}
             keyExtractor={item => item.id.toString()}
             extraData={this.state}

@@ -42,7 +42,7 @@ export default class DemographicsForm extends React.Component {
   }
 
   render() {
-    let title = 'Build-a-Band';
+    let title = 'Build-a-band';
     return (
       <View style={styles.container}>
           <Text style={styles.title}>{title}</Text>
@@ -91,30 +91,16 @@ export default class DemographicsForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
-    position: "relative"
+    backgroundColor: "#262527",
+    position: "relative",
+    width: "100%"
   },
   title: {
     fontSize: 40,
     color: "#fff",
-    textAlign: "left",
+    textAlign: "center",
     marginBottom: 10,
     marginTop: 50
-  },
-  loader: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff"
-  },
-  list: {
-    paddingVertical: 5,
-    margin: 3,
-    flexDirection: "row",
-    backgroundColor: "#000000",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    zIndex: -1
   },
   lightText: {
     color: "#f7f7f7",
@@ -124,10 +110,4 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
     fontSize: 20
   },
-  line: {
-    height: 0.5,
-    width: "100%",
-    backgroundColor: "rgba(255,255,255,0.5)"
-  },
-  selected: { backgroundColor: "#228B22" },
 });

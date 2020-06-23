@@ -13,10 +13,9 @@ export default class AbilitiesForm extends React.Component {
       ids: []
     };
     this.getInstruments = this.getInstruments.bind(this);
-    this.FlatListItemSeparator = this.FlatListItemSeparator.bind(this);
     this.selectInstrument = this.selectInstrument.bind(this);
-    this.renderItem = this.renderItem.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.renderItem = this.renderItem.bind(this);
   }
   componentDidMount() { this.getInstruments(); }
 
@@ -26,7 +25,9 @@ export default class AbilitiesForm extends React.Component {
     });
     axios.get('http://127.0.0.1:3000/instruments')
       .then((response) => {
+        console.log(response);
         let data = response.data;
+        console.log(data);
         let intrumentsData = data.map(item => {
           item.selected = false;
           item.selectedClass = styles.list;
@@ -40,8 +41,6 @@ export default class AbilitiesForm extends React.Component {
         this.setState({ loading: false });
       });
   };
-
-  FlatListItemSeparator = () => <View style={styles.line} />;
 
   selectInstrument = data => {
     data.item.selected = !data.item.selected;
@@ -61,22 +60,28 @@ export default class AbilitiesForm extends React.Component {
   handleSubmit = (event) => {
     event.preventDefault();
     let container = [];
+    console.log(this.state.seekingInstruments)
     for (let i = 0; i < this.state.seekingInstruments.length; i++) {
       if (this.state.seekingInstruments[i].selected) {
-        container.push(this.state.seekingInstruments[i].id)
+        console.log(this.state.seekingInstruments[i].instrument)
+        container.push(this.state.seekingInstruments[i].instrument)
       }
     }
     this.setState({
-      ids: container
+      seekingInstruments: container
     }, () => {
-      this.props.seekingCallback(this.state.ids)
+      console.log("In handleSubmit:", this.state.seekingInstruments)
+      this.props.seekingCallback(this.state.seekingInstruments)
     })
   }
 
   renderItem = data =>
     <TouchableOpacity
       style={[styles.list, data.item.selectedClass]}
-      onPress={() => this.selectInstrument(data)}>
+      onPress={() => {
+        this.selectInstrument(data)
+        console.log(data)
+        }}>
       <Text style={styles.lightText}>  {data.item.instrument.charAt(0).toUpperCase() + data.item.instrument.slice(1)}  </Text>
     </TouchableOpacity>
 
@@ -96,7 +101,6 @@ export default class AbilitiesForm extends React.Component {
         <Text style={styles.title}>Seeking</Text>
         <FlatList
           data={this.state.seekingInstruments}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
           renderItem={item => this.renderItem(item)}
           keyExtractor={item => item.id.toString()}
           extraData={this.state}
@@ -114,13 +118,15 @@ export default class AbilitiesForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#000000",
-    position: "relative"
+    backgroundColor: "#2b2b2c",
+    position: "relative",
+    width: "100%"
   },
   title: {
     fontSize: 40,
     color: "#fff",
     textAlign: "left",
+    paddingLeft: 25,
     marginBottom: 10,
     marginTop: 10
   },
@@ -131,13 +137,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   },
   list: {
-    paddingVertical: 5,
-    margin: 3,
+    padding: 15,
+    margin: 10,
     flexDirection: "row",
-    backgroundColor: "#000000",
+    backgroundColor: "#262527",
     justifyContent: "flex-start",
-    alignItems: "center",
-    zIndex: -1
+    alignItems: "flex-start",
+    width: "90%",
+    zIndex: -1,
+    borderRadius: 20,
+    shadowColor: "#1e1e1f",
+    shadowOffset: {
+      width: 5,
+      height: 5
+    },
+    shadowOpacity: 1,
+    shadowRadius: 10,
+    elevation: 30
   },
   lightText: {
     color: "#f7f7f7",

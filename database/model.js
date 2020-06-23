@@ -24,10 +24,12 @@ module.exports = {
 
   getMusicians: (lat, lng, seeking, callback) => {
     let seekingArray = JSON.parse(seeking);
+    console.log(seekingArray);
     pool.query(`SELECT *, SQRT(
                   POW(69.1 * (latitude - ${lat}), 2) +
                   POW(69.1 * (${lng} - longitude) * COS(latitude / 57.3), 2)) AS distance
                   FROM users
+                  WHERE seeking = ${seeking}
                   ORDER BY distance
                   LIMIT 15`)
       .then(res => {

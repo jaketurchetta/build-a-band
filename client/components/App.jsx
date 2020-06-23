@@ -50,10 +50,12 @@ export default class App extends React.Component {
   }
 
   seekingCallback(data) {
+    console.log(data)
     this.setState({
       form: 'musician',
       seeking: data
     }, () => {
+      console.log('In seeking callback, before axios post')
       axios.post('http://127.0.0.1:3000/musicians', this.state)
       .then(response => {
         console.log(response)

@@ -117,7 +117,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "left",
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
+    paddingLeft: 25
   },
   loader: {
     flex: 1,
@@ -159,10 +160,3 @@ const styles = StyleSheet.create({
   },
   selected: { backgroundColor: "#228B22" },
 });
-
-// const ListItem = styled.Text`
-//   border-radius: 24px;
-//   background: #252527;
-//   box-shadow:  19px 19px 38px #1f1f20,
-//               -19px -19px 38px #373738;
-// `;
