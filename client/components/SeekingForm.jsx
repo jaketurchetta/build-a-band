@@ -102,7 +102,7 @@ export default class AbilitiesForm extends React.Component {
         <FlatList
           data={this.state.seekingInstruments}
           renderItem={item => this.renderItem(item)}
-          keyExtractor={item => item.id.toString()}
+          keyExtractor={item => item.id}
           extraData={this.state}
         />
         <Button
